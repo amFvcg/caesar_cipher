@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -14,10 +15,25 @@ std::string rot47(const std::string& line)
 
 int main(int argc, char** argv)
 {
-    std::string line;
-    while (std::getline(std::cin, line))
+    auto parser = [](std::istream& stream){
+        std::string line;
+        while (std::getline(stream, line))
+        {
+            std::cout << rot47(line) << std::endl;
+        }
+    };
+    if (argc > 1)
     {
-        std::cout << rot47(line) << std::endl;
+        for(int i=1; i<argc; ++i)
+        {
+            std::ifstream file(argv[i]);
+            if (!file) continue;
+            parser(file);
+        }
+    }
+    else
+    {
+        parser(std::cin);
     }
     return 0;
 }
