@@ -11,7 +11,7 @@ int main(int argc, char** argv)
         std::string line;
         while (std::getline(stream, line))
         {
-            std::cout << rot47(line) << std::endl;
+            std::cout << rot47::cipher(line) << std::endl;
         }
     };
     if (argc > 1)

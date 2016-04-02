@@ -1,6 +1,6 @@
 CXX=g++
 CXXFLAGS=-c -Wall -std=c++11 -Werror -O2
-INC=../include
+INC=-I../include
 EXECUTABLE=rot47
 
 all: rot47
