@@ -14,16 +14,16 @@ int main(int argc, char** argv)
             std::ifstream file(argv[i]);
             if (!file) continue;
             rot47::stepping::parse(
-                    file, 
-                    std::cout, 
+                    file,
+                    std::cout,
                     rot47::stepping::Direction::None);
         }
     }
     else
     {
         rot47::stepping::parse(
-                std::cin, 
-                std::cout, 
+                std::cin,
+                std::cout,
                 rot47::stepping::Direction::None);
     }
     return 0;

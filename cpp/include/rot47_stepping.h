@@ -8,7 +8,7 @@
 namespace rot47 {
 namespace stepping {
 
-enum class Direction { 
+enum class Direction {
 	Forward,
 	Backward,
         None
@@ -16,10 +16,10 @@ enum class Direction {
 
 std::string cipher(const std::string& line, int step=0, Direction direction=Direction::Forward)
 {
-	step = direction == Direction::Forward 
-            ? step 
-            : direction == Direction::Backward 
-                ? -step 
+	step = direction == Direction::Forward
+            ? step
+            : direction == Direction::Backward
+                ? -step
                 : 0;
 	return rot47::cipher(line, rot47::SHIFT + step);
 }
@@ -31,7 +31,11 @@ void parse(std::istream& input, std::ostream& output, Direction direction)
     int lineNo = 0;
     while (std::getline(input, line))
     {
-            output << cipher(line, ++lineNo, direction) << '\n';
+            output << cipher(line, ++lineNo, direction);
+            if (!input.eof())
+            {
+                output << '\n';
+            }
     }
 };
 

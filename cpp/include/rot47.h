@@ -22,7 +22,11 @@ void parse(std::istream& input, std::ostream& output)
     std::string line;
     while (std::getline(input, line))
     {
-            output << rot47::cipher(line) << '\n';
+            output << rot47::cipher(line);
+            if (!input.eof())
+            {
+                output << '\n';
+            }
     }
 }
 
