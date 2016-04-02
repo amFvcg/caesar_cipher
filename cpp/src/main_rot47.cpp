@@ -7,25 +7,18 @@
 
 int main(int argc, char** argv)
 {
-    auto parser = [](std::istream& stream){
-        std::string line;
-        while (std::getline(stream, line))
-        {
-            std::cout << rot47::cipher(line) << std::endl;
-        }
-    };
     if (argc > 1)
     {
         for(int i=1; i<argc; ++i)
         {
             std::ifstream file(argv[i]);
             if (!file) continue;
-            parser(file);
+            rot47::parse(file, std::cout);
         }
     }
     else
     {
-        parser(std::cin);
+        rot47::parse(std::cin, std::cout);
     }
     return 0;
 }

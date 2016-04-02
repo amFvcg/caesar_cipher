@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <istream>
 #include <string>
 
 
@@ -14,6 +15,15 @@ std::string cipher(const std::string& line, const int shift=SHIFT)
     };
     std::transform(line.begin(), line.end(), std::back_inserter(retval), evaluate);
     return retval;
+}
+
+void parse(std::istream& input, std::ostream& output)
+{
+    std::string line;
+    while (std::getline(input, line))
+    {
+            output << rot47::cipher(line) << '\n';
+    }
 }
 
 } // namespace rot47
