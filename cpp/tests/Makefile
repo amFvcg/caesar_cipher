@@ -12,5 +12,8 @@ test_rot47XXX: test_rot47XXX.o
 test_rot47XXX.o: test_rot47XXX.cpp
 	$(CXX) $(CXXFLAGS) $(INC) $<
 
+test: test_rot47XXX
+	./$<
+
 clean:
 	rm -f *o $(BINARIES)
