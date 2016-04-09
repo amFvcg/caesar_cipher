@@ -17,12 +17,12 @@ std::string cipher(const std::string& line, const int shift=SHIFT)
     return retval;
 }
 
-void parse(std::istream& input, std::ostream& output)
+void parse(std::istream& input, std::ostream& output, bool decode=false, int shift=0)
 {
     std::string line;
     while (std::getline(input, line))
     {
-            output << rot47::cipher(line);
+            output << rot47::cipher(line, decode?SHIFT-shift:SHIFT+shift);
             if (!input.eof())
             {
                 output << '\n';

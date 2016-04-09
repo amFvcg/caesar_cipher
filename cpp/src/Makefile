@@ -6,7 +6,7 @@ BINARIES=rot47 rot47_stepping
 all: rot47 rot47_stepping
 
 rot47: main_rot47.o
-	$(CXX) $< -o $@
+	$(CXX) $< -o $@ -lboost_program_options
 
 rot47_stepping: main_rot47_stepping.o
 	$(CXX) $< -o $@
