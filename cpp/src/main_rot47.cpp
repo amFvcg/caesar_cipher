@@ -12,6 +12,7 @@ struct Options
     bool decode;
     std::vector<std::string> input_files;
     std::string help;
+    std::string version;
 };
 
 Options parser(int ac, char** av)
@@ -21,6 +22,7 @@ Options parser(int ac, char** av)
         options_description desc("Allowed options");
 
         desc.add_options()
+            ("version,v", "prints version")
             ("help,h", "produce help message")
             ("shift,s", value<unsigned int>(&options.shift)->default_value(0))
             ("decode,d", "")
@@ -44,6 +46,11 @@ Options parser(int ac, char** av)
             options.help = ss.str();
         }
 
+        if (vm.count("version"))
+        {
+            options.version = "0.1.0";
+        }
+
         return options;
 }
 
@@ -54,6 +61,12 @@ int main(int ac, char** av)
     if (options.help.length())
     {
         std::cout << options.help << std::endl;
+        return 1;
+    }
+
+    if (options.version.length())
+    {
+        std::cout << options.version << std::endl;
         return 1;
     }
 
