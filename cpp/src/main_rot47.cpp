@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+#include <fcntl.h>
+
 #include <boost/program_options.hpp>
 
 #include "rot47.h"
@@ -13,6 +15,7 @@ struct Options
     std::vector<std::string> input_files;
     std::string help;
     std::string version;
+    bool cstyle;
 };
 
 Options parser(int ac, char** av)
@@ -25,8 +28,9 @@ Options parser(int ac, char** av)
             ("version,v", "prints version")
             ("help,h", "produce help message")
             ("shift,s", value<unsigned int>(&options.shift)->default_value(0))
-            ("decode,d", "")
-            ("input-file", value<std::vector<std::string> >(), "input file")
+            ("decode,d", bool_switch(&options.decode)->default_value(false), "")
+            ("cstyle,c", bool_switch(&options.cstyle)->default_value(false), "")
+            ("input-file", value<std::vector<std::string> >(&options.input_files), "input file")
         ;
 
         positional_options_description pos;
@@ -36,8 +40,6 @@ Options parser(int ac, char** av)
         store(command_line_parser(ac, av).
                 options(desc).positional(pos).run(), vm);
         notify(vm);
-
-        options.decode = vm.count("decode") > 0;
 
         if (vm.count("help"))
         {
@@ -76,9 +78,19 @@ int main(int ac, char** av)
                 options.input_files.begin(),
                 options.input_files.end(),
                 [&options](const std::string& file_name){
-                    std::ifstream file(file_name);
-                    if (file)
-                    rot47::parse(file, std::cout, options.decode, options.shift);
+                    if (options.cstyle) {
+                        int in_fd = open(file_name.c_str(), O_RDONLY);
+                        if (in_fd != -1) {
+                            rot47::c_parse(in_fd, STDOUT_FILENO, options.decode, options.shift);
+                            close(in_fd);
+                        }
+
+                    }
+                    else {
+                        std::ifstream file(file_name);
+                        if (file)
+                        rot47::parse(file, std::cout, options.decode, options.shift);
+                    }
                 }
         );
     }
